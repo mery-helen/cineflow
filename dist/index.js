@@ -1,8 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ingresso_1 = require("./Ingresso");
-const IngressoMeia_1 = require("./IngressoMeia");
-let ingresso = new Ingresso_1.default("Interestelar", 40);
-console.log("Ingresso normal: ", ingresso.calcularValor());
-let ingressoMeia = new IngressoMeia_1.default("Duna", 40);
-console.log("Ingresso meia: ", ingressoMeia.calcularValor());
+const IngressoService_1 = __importDefault(require("./service/IngressoService"));
+const VendaService_1 = __importDefault(require("./service/VendaService"));
+const MainController_1 = __importDefault(require("./control/MainController"));
+const Database_1 = __importDefault(require("./Database"));
+const FirstScreen_1 = __importDefault(require("./view/FirstScreen"));
+const meuDatabase = new Database_1.default();
+const serviceIngresso = new IngressoService_1.default(meuDatabase);
+const serviceVenda = new VendaService_1.default(meuDatabase);
+const controller = new MainController_1.default(meuDatabase, serviceIngresso, serviceVenda);
+new FirstScreen_1.default(controller);

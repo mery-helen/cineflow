@@ -1,8 +1,16 @@
-import Ingresso from "./Ingresso";
-import IngressoMeia from "./IngressoMeia";
 
-let ingresso = new Ingresso("Interestelar",40);
-console.log("Ingresso normal: ", ingresso.calcularValor());
+import IngressoService from "./service/IngressoService";
+import VendaService from "./service/VendaService"; 
+import MainController from "./control/MainController";
+import Database from "./Database";
+import FirstScreen from "./view/FirstScreen";
 
-let ingressoMeia = new IngressoMeia("Duna",40);
-console.log("Ingresso meia: ", ingressoMeia.calcularValor());
+const meuDatabase = new Database()
+;
+const serviceIngresso = new IngressoService(meuDatabase);
+const serviceVenda = new VendaService(meuDatabase);
+
+
+const controller = new MainController(meuDatabase, serviceIngresso, serviceVenda);
+
+new FirstScreen(controller);
