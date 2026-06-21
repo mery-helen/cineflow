@@ -100,7 +100,7 @@ export default class VendaRegister {
           throw new Error("Tipo de ingresso inválido.");
       }
 
-      console.log("Deseja adicionar o combo pipoca? (s/n)");
+      console.log("Deseja adicionar o Combo Pipoca (Pipoca + Refrigerante + Chocolate) por R$35.00? (s/n)");
       const opcaoCombo = this.prompt("> ");
 
       switch (opcaoCombo.toLowerCase()) {

@@ -22,6 +22,10 @@ export default abstract class Ingresso implements IComprovante {
     return this.cliente;
   }
 
+  public getValorTotal(): number {
+    return this.calcularPrecoFinal();
+  }
+
   constructor(
     protected filme: FilmesDisponiveis,
     protected valor: number,

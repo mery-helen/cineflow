@@ -11,5 +11,9 @@ export abstract class IngressoDecorator implements IComprovante {
     public getResumo(): string {
         return this.comprovanteBase.getResumo();
     }
+
+    public getValorTotal(): number {
+        return this.comprovanteBase.getValorTotal();
+    }
 }
 
