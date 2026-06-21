@@ -8,10 +8,11 @@ export default class IngressoService {
         this.database = database;
     }
 
+    //sobrecarga 
     public realizarVenda(filme: string): void;
     public realizarVenda(ingresso: Ingresso): void;
 
-    public realizarVenda(p1: any): void {
+    public realizarVenda(p1: string | Ingresso): void {
         if(typeof p1 === "string") {
             console.log('Venda realizada para o filme: ' + p1);
         } else {

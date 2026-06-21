@@ -1,9 +1,11 @@
-import promptSync from "prompt-sync";
+import promptSync = require("prompt-sync");
 import MainController from "../control/MainController";
-import Cliente from "../model/Cliente";
 import { Sala } from "../model/Sala";
 import { Cadeira } from "../model/Cadeira";
 import { FilmesDisponiveis } from "../model/FilmesDisponiveis";
+import { IComprovante } from "../model/IComprovante";
+import { ImpressaoGenerica } from "../utils/ImpressaoGenerica";
+import { CadeiraOcupadaException } from "../utils/CadeiraOcupadaException";
 
 export default class VendaRegister {
   private prompt = promptSync();
@@ -19,7 +21,7 @@ export default class VendaRegister {
 
       const nome = this.prompt("Nome: ");
       const cpf = this.prompt("CPF: ");
-      const cliente = new Cliente(nome, cpf);
+      const cliente = this.controller.getNewCliente(nome, cpf);
 
       console.log(
         "Escolha o filme:\n1. Interestelar\n2. Duna: Parte 2\n3. Pobres Criaturas",
@@ -83,30 +85,48 @@ export default class VendaRegister {
           throw new Error("Cadeira inválida.");
       }
 
-      const tipo = this.prompt("Tipo: 1. Inteira | 2. Meia: ");
-      if (tipo === "1") {
-        this.controller.venderIngressoInteira(
-          filme,
-          40,
-          sala,
-          cadeira,
-          cliente,
-        );
-      } else if (tipo === "2") {
-        this.controller.venderIngressoMeia(
-          filme,
-          40,
-          sala,
-          cadeira,
-          cliente,    
-        );
-      } else {
-        throw new Error("Tipo de ingresso não reconhecido.");
+      console.log("Tipo de ingresso: 1.Inteira | 2.Meia");
+      const tipo = this.prompt("> ");
+      let comprovanteFinal: IComprovante;
+
+      switch (tipo) {
+        case "1":
+          comprovanteFinal = this.controller.venderIngressoInteira(filme, 40, sala, cadeira, cliente);
+          break;
+        case "2":
+          comprovanteFinal = this.controller.venderIngressoMeia(filme, 40, sala, cadeira, cliente);
+          break;
+        default:
+          throw new Error("Tipo de ingresso inválido.");
       }
 
+      console.log("Deseja adicionar o combo pipoca? (s/n)");
+      const opcaoCombo = this.prompt("> ");
+
+      switch (opcaoCombo.toLowerCase()) {
+        case "s":
+          comprovanteFinal = this.controller.adicionarComboPipoca(comprovanteFinal);
+          break;
+        case "n":
+          break;
+        default:
+          console.warn("Opção inválida. Prosseguindo sem o combo.");
+      }
+
+      const impressao = new ImpressaoGenerica<IComprovante>();
+
+      impressao.imprimirComprovante(comprovanteFinal);
+
       console.log("Venda concluída com sucesso! Bom filme :)");
+
     } catch (error: any) {
-      console.log(error.message + " Retornando ao menu principal...");
+      if (error instanceof CadeiraOcupadaException) {
+        console.error("Erro: " + error.message);
+      } else {
+        console.error("Erro de validação: " + error.message);
+      }
+
+      console.log("Retornando ao menu principal...");
     }
   }
 }

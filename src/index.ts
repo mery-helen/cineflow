@@ -5,8 +5,7 @@ import MainController from "./control/MainController";
 import Database from "./Database";
 import FirstScreen from "./view/FirstScreen";
 
-const meuDatabase = new Database()
-;
+const meuDatabase = new Database();
 const serviceIngresso = new IngressoService(meuDatabase);
 const serviceVenda = new VendaService(meuDatabase);
 
