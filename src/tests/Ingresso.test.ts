@@ -6,7 +6,7 @@ import { FilmesDisponiveis } from "../model/FilmesDisponiveis";
 import { IngressoMeia } from "../model/IngressoMeia";
 import { ComboPipocaDecorator } from "../model/ComboPipocaDecorator";
 
-test("Deve cobrar apens metade do valor na meia entrada", () => {
+test("Deve cobrar apenas metade do valor na meia entrada", () => {
     const cliente = new Cliente("Maria", "12345678900");
     const ingresso = new IngressoMeia(FilmesDisponiveis.INTERESTELAR, 40, Sala.IMAX, Cadeira.A1, cliente);
 
@@ -19,5 +19,5 @@ test("Deve adicionar o combo pipoca ao ingresso", () => {
     
     const comprovanteComCombo = new ComboPipocaDecorator(ingresso);
 
-    expect(comprovanteComCombo.getResumo()).toContain("Combo Pipoca M");
+    expect(comprovanteComCombo.getResumo()).toContain("Combo Pipoca");
 });

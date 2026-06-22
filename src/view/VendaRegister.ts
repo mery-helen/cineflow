@@ -114,10 +114,15 @@ export default class VendaRegister {
       }
 
       const impressao = new ImpressaoGenerica<IComprovante>();
-
       impressao.imprimirComprovante(comprovanteFinal);
 
       console.log("Venda concluída com sucesso! Bom filme :)");
+
+      console.log("Gerando seu comprovante em PDF...");
+      this.controller.gerarPdfIngresso(comprovanteFinal, nome);
+
+      console.log("O ingresso será aberto automaticamente após sair do programa.");
+      
 
     } catch (error: any) {
       if (error instanceof CadeiraOcupadaException) {

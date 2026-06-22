@@ -11,10 +11,12 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "pdfkit": "^0.19.1",
     "prompt-sync": "^4.2.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/pdfkit": "^0.17.6",
     "@types/prompt-sync": "^4.2.3",
     "jest": "^30.4.2",
     "ts-jest": "^29.4.11"
